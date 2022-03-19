@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Data
@@ -15,6 +17,7 @@ import javax.persistence.Id;
 public class SalonServiceDetail {
 
     @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private final long id; // bigint
     private final String description; //  char(255)
     private final String name; //  char(255)

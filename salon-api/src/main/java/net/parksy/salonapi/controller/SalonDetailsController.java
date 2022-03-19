@@ -5,26 +5,27 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import net.parksy.salonapi.SalonDetails;
+import net.parksy.salonapi.data.SalonServiceDetailRepository;
+import net.parksy.salonapi.entity.SalonServiceDetail;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/SalonDetails")
+@RestController
+@RequestMapping("/api/services")
+@CrossOrigin("*")
 @Api(value="salonstore", description="Operations pertaining to Salon Details")
 public class SalonDetailsController {
+    @Autowired
+    private SalonServiceDetailRepository salonServiceDetailRepo;
 
-    @ApiOperation(value = "View the Salon Details",response = SalonDetails.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved list"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-    }
-    )
-    @GetMapping("/")
-    public SalonDetails salonDetails() {
-        return new SalonDetails();
-    }
+	@GetMapping(value = "/retrieveAvailableSalonServices", produces = "application/json")
+	@ApiOperation("RetrieveAvailableSalonServicesAPI")
+	public Iterable<SalonServiceDetail> retrieveAvailableSalonServices() {
+		return salonServiceDetailRepo.findAll();
+	}
 
 }
